@@ -52,8 +52,15 @@
       <!-- 001 · HERO — video scrubeado por scroll, shift horizontal y wipe del título -->
       <section class="hero-track" data-scrub="hero">
         <div class="hero">
-          <video class="hero-bg" muted playsinline preload="auto" poster="/video/tucan.jpg" data-video="tucan"></video>
+          <!-- Montaje: 4 planos en loop; el scroll corta de plano con una cortina vertical -->
+          <div class="hero-bg hero-reel" data-reel>
+            <video class="shot" muted loop playsinline preload="auto" poster="/video/tucan.jpg" data-shot="tucan" data-label="Tucán toco"></video>
+            <video class="shot" muted loop playsinline preload="metadata" poster="/video/noir.jpg" data-shot="noir" data-label="Salto nocturno"></video>
+            <video class="shot" muted loop playsinline preload="metadata" poster="/video/mariposa.jpg" data-shot="mariposa" data-label="Morpho azul"></video>
+            <video class="shot" muted loop playsinline preload="metadata" poster="/video/rio.jpg" data-shot="rio" data-label="La vorágine"></video>
+          </div>
           <div class="hero-scrim" aria-hidden="true"></div>
+          <p class="shot-counter" aria-hidden="true"><span data-shot-n>01</span> / 04 — <span data-shot-label>Tucán toco</span></p>
 
           <p class="meta">
             <span>Desde Puerto Iguazú</span>

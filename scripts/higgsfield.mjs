@@ -21,6 +21,13 @@ export const SHOTS = {
     prompt: `Ultra cinematic editorial portrait of a toco toucan perched on a dark mossy branch, seen in elegant side profile, placed in the left third of the frame. Its huge glowing orange beak and glossy black feathers with a white throat stand out against an almost pure black background. Behind it, a faint veil of waterfall mist from Iguazu Falls drifts slowly, softly backlit with cold silver light. The right half of the frame is deep black empty negative space. The toucan slowly turns its head toward the camera and blinks, tiny mist droplets float through the light. The camera pushes in very slowly. Low-key fashion photography lighting, high contrast, shot on ARRI Alexa, 85mm lens, shallow depth of field, natural film grain, photorealistic, one continuous take, perfectly smooth motion, no cuts.`,
     negative: "text, letters, watermark, logo, people, multiple birds, cartoon, cgi look, bright background, daylight, cuts, scene change, shaky camera, blurry, low quality, deformed beak",
   },
+  // Montaje del hero — plano 2: mariposas (Iguazú es famosa por ellas).
+  mariposa: {
+    prompt: `Ultra cinematic macro shot of a metallic blue morpho butterfly slowly opening and closing its iridescent wings while perched on a wet dark leaf, placed in the left half of the frame against an almost pure black background. Tiny droplets of waterfall mist drift and sparkle in a beam of cold light, a few more butterflies flutter softly out of focus in the darkness. The camera slowly orbits and pushes in. The right half of the frame stays deep black. Low-key editorial lighting, high contrast, shot on ARRI Alexa, macro 100mm lens, shallow depth of field, natural film grain, photorealistic, slow motion, one continuous take, no cuts.`,
+    negative: "text, letters, watermark, logo, people, cartoon, cgi look, bright background, daylight, cuts, scene change, shaky camera, blurry, low quality, deformed wings",
+  },
+  // Montaje del hero — plano 4: la vorágine real, remolino del río bajo la Garganta.
+  rio: `Ultra cinematic top-down aerial drone shot looking straight down at the dark churning river below the Devil's Throat at Iguazu Falls. Thick white foam swirls into a giant spiral whirlpool on the deep black-green water, mist drifting across the frame, the spiral sits in the left half of the frame. The camera slowly rotates and descends toward the vortex. Moody low-key light, high contrast, deep blacks, shot on ARRI Alexa, natural film grain, photorealistic, one continuous take, perfectly smooth motion, no cuts.`,
   // Logo vivo: "vorágine" = remolino. Se usa con mix-blend-mode: lighten sobre negro.
   vortex: {
     duration: 5,

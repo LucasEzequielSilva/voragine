@@ -73,21 +73,49 @@ function createScrubber(video, section, { onFrame } = {}) {
 
 const ticks = [];
 
-// HERO: el título se barre L→R desde el 30 % y el video se recentra hasta el 60 %.
+// HERO — montaje: los planos corren en loop (movimiento constante) y el scroll corta de plano
+// con una cortina vertical. Además el título se barre L→R desde el 30 % y el reel se recentra.
 const heroTrack = $(".hero-track");
 const titleBlock = $(".title-block");
 const heroBg = $(".hero-bg");
+const shots = $$(".shot", heroBg);
+const shotN = $("[data-shot-n]"), shotLabel = $("[data-shot-label]");
 const MASK_START = 0.3, SHIFT_PX = 225, CENTER_BY = 0.6;
-ticks.push(
-  createScrubber(heroBg, heroTrack, {
-    onFrame: (scrollP, p) => {
-      if (isMobile) return;
-      titleBlock.style.setProperty("--wipe", clamp((p - MASK_START) / (1 - MASK_START)).toFixed(4));
-      heroBg.style.setProperty("--shift", `${(-SHIFT_PX * (1 - clamp(p / CENTER_BY))).toFixed(1)}px`);
-      heroBg.style.setProperty("--zoom", (1.06 + p * 0.08).toFixed(4));
-    },
-  })
-);
+const CUT = 0.22; // fracción de cada tramo que dura la cortina
+shots.forEach((v) => (v.src = srcFor(v.dataset.shot)));
+const playShot = (v) => v.paused && v.play().catch(() => {});
+playShot(shots[0]);
+
+let reelP = 0;
+ticks.push((now) => {
+  const r = heroTrack.getBoundingClientRect();
+  const range = r.height - innerHeight;
+  const target = range > 0 ? clamp(-r.top / range) : 0;
+  reelP += (target - reelP) * 0.12;
+  const p = reelP;
+
+  // tramo actual y progreso de la cortina dentro del tramo
+  const n = shots.length;
+  const seg = Math.min(n - 1, Math.floor(p * n));
+  const local = p * n - seg;
+  const cut = seg === 0 ? 1 : clamp(local / CUT);
+  shots.forEach((v, i) => {
+    let reveal = i < seg ? 1 : i === seg ? cut : 0;
+    v.style.setProperty("--reveal", reveal.toFixed(4));
+    v.style.setProperty("--push", (1 - reveal).toFixed(4));
+    const visible = i === seg || (i === seg - 1 && cut < 1);
+    v.classList.toggle("is-on", visible);
+    visible || (i === seg + 1 && local > 0.6) ? playShot(v) : v.pause();
+  });
+  const current = cut < 0.5 && seg > 0 ? seg - 1 : seg;
+  shotN.textContent = String(current + 1).padStart(2, "0");
+  shotLabel.textContent = shots[current].dataset.label;
+
+  if (isMobile) return;
+  titleBlock.style.setProperty("--wipe", clamp((p - MASK_START) / (1 - MASK_START)).toFixed(4));
+  heroBg.style.setProperty("--shift", `${(-SHIFT_PX * (1 - clamp(p / CENTER_BY))).toFixed(1)}px`);
+  heroBg.style.setProperty("--zoom", (1.06 + p * 0.06).toFixed(4));
+});
 
 // SERVICIOS: 3 sets que entran/salen con blur sobre la Garganta del Diablo (motor Cortex).
 const solutions = $(".solutions");
@@ -131,7 +159,7 @@ if (!reduceMotion) {
   const start = performance.now();
   let ready = false, shown = 0;
   const done = () => (ready = true);
-  heroBg.readyState >= 2 ? done() : heroBg.addEventListener("loadeddata", done, { once: true });
+  shots[0].readyState >= 2 ? done() : shots[0].addEventListener("loadeddata", done, { once: true });
   setTimeout(done, 7000);
 
   const step = (now) => {
