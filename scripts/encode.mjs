@@ -8,7 +8,7 @@ const JOBS = {
   tucan: { scrub: false, crf: 26 },
   noir: { scrub: false, crf: 26, vf: "hflip" }, // espejado: cascada a la izquierda
   mariposa: { scrub: false, crf: 26 },
-  rio: { scrub: false, crf: 26 }, // espejado: cascada a la izquierda, texto sobre negro
+  rio: { scrub: false, crf: 26 },
   garganta: { scrub: true },
   hero: { scrub: false, width: 1280, mobile: 720 }, // fondo en loop del contacto
   vortex: { scrub: false, vf: "crop=ih*0.62:ih*0.62", width: 320, mobile: null }, // logo
