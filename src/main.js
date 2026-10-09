@@ -24,7 +24,7 @@ const REVEAL_A = 1 / 3;
 const WHO = { in: [0.37, 0.43], fly: [0.52, 0.62] };
 const SERVICES = { from: 0.63 };
 const REVEAL_B = 2 / 3;
-const STATS = { from: 0.72, to: 0.9 };
+const STATS = { from: 0.77, to: 0.91 };
 const TITLE_IN = [0.917, 1];
 const STAGE_OUT = [0.985, 1];
 const WIPE_VH = 80;
@@ -140,7 +140,7 @@ function slots(p, items, from, to, { arrive = 0.3, hold = 0.45 } = {}) {
   });
 }
 function updateServices(p) {
-  const to = REVEAL_B + wipe * 0.6;
+  const to = Math.min(REVEAL_B + wipe * 0.4, STATS.from - 0.02);
   sceneIn(scenes.services, p > SERVICES.from - 0.01 && p < to + 0.01 ? 1 : 0);
   slots(p, svcs, SERVICES.from, to);
 }
