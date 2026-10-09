@@ -15,16 +15,6 @@ const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 
 document.body.classList.add("is-loading");
 
-// ─── A/B del hero: ?hero=v1|v2|v3 elige el final del viaje (default v1) ───
-const HERO_VARIANTS = ["v1", "v2", "v3"];
-const wanted = new URLSearchParams(location.search).get("hero");
-const HERO_VARIANT = HERO_VARIANTS.includes(wanted) ? wanted : "v1";
-{
-  const v = $(".hero-bg");
-  v.dataset.video = `viaje-${HERO_VARIANT}`;
-  v.poster = `/video/viaje-${HERO_VARIANT}.jpg`;
-}
-
 // ─── Fuentes de video (versión mobile más liviana) ───
 const srcFor = (name) => `/video/${name}${isMobile ? "-mobile" : ""}.mp4`;
 $$("video[data-video]").forEach((v) => (v.src = srcFor(v.dataset.video)));
@@ -90,8 +80,7 @@ const titleBlock = $(".title-block");
 const heroBg = $(".hero-bg");
 const chapterN = $("[data-chapter-n]"), chapterEl = $("[data-chapter]");
 const heroScrim = $(".hero-scrim");
-const FINALE = { v1: "Las Cataratas", v2: "Desde el aire", v3: "La vorágine" }[HERO_VARIANT];
-const CHAPTERS = [[0, "El tucán"], [0.18, "El vuelo"], [0.5, "La bruma"], [0.78, FINALE]];
+const CHAPTERS = [[0, "El tucán"], [0.18, "El vuelo"], [0.5, "La bruma"], [0.78, "La vorágine"]];
 const MASK_START = 0.3, SHIFT_PX = 225, CENTER_BY = 0.6;
 ticks.push(
   createScrubber(heroBg, heroTrack, {

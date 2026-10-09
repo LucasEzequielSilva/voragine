@@ -24,3 +24,9 @@
   El B se describe tal como salió el A (tucán bordó, pico oscuro) para evitar morphing.
 - A/B/C del final (v1 revelación, v2 ascenso, v3 inmersión) elegible por `?hero=vN`. Pendiente de decisión.
 - Descartado: montaje de 4 planos con cortina (commit 24ea6b1), scrub de un solo plano estático.
+
+## 2026-10-09 — Final del hero: V3 "Inmersión / La vorágine"
+- Por qué: es la única que convierte el nombre de la agencia en imagen (conecta con el logo-remolino) y termina oscuro,
+  empalmando con el fondo negro del manifiesto. El usuario pidió que eligiera yo.
+- Descartado: V1 revelación (más segura pero genérica), V2 ascenso aéreo (tucán se deforma, final claro choca con el negro).
+- Revisable: sí; los clips crudos vuelo_b1/b2 siguen en media/raw para reconstruir.

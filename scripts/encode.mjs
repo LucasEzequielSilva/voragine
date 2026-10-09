@@ -4,10 +4,8 @@ import { mkdirSync, existsSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
 const JOBS = {
-  // Hero: viaje continuo del tucán (tramo A + tramo B concatenados por scripts/concat.mjs). A/B/C con ?hero=vN
-  "viaje-v1": { scrub: true, crf: 24 },
-  "viaje-v2": { scrub: true, crf: 24 },
-  "viaje-v3": { scrub: true, crf: 24 },
+  // Hero: "El viaje del tucán" = tramo A + tramo B3 (scripts/concat.mjs)
+  viaje: { scrub: true, crf: 24 },
   garganta: { scrub: true },
   hero: { scrub: false, width: 1280, mobile: 720 }, // fondo en loop del contacto
   vortex: { scrub: false, vf: "crop=ih*0.62:ih*0.62", width: 320, mobile: null }, // logo
