@@ -15,6 +15,16 @@ const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 
 document.body.classList.add("is-loading");
 
+// ─── A/B del hero: ?hero=v1|v2|v3 elige el final del viaje (default v1) ───
+const HERO_VARIANTS = ["v1", "v2", "v3"];
+const wanted = new URLSearchParams(location.search).get("hero");
+const HERO_VARIANT = HERO_VARIANTS.includes(wanted) ? wanted : "v1";
+{
+  const v = $(".hero-bg");
+  v.dataset.video = `viaje-${HERO_VARIANT}`;
+  v.poster = `/video/viaje-${HERO_VARIANT}.jpg`;
+}
+
 // ─── Fuentes de video (versión mobile más liviana) ───
 const srcFor = (name) => `/video/${name}${isMobile ? "-mobile" : ""}.mp4`;
 $$("video[data-video]").forEach((v) => (v.src = srcFor(v.dataset.video)));
@@ -73,49 +83,29 @@ function createScrubber(video, section, { onFrame } = {}) {
 
 const ticks = [];
 
-// HERO — montaje: los planos corren en loop (movimiento constante) y el scroll corta de plano
-// con una cortina vertical. Además el título se barre L→R desde el 30 % y el reel se recentra.
+// HERO — un solo plano continuo (el viaje del tucán hacia las Cataratas) scrubeado por el scroll.
+// El título se barre L→R desde el 30 %, el video se recentra hasta el 60 % y abajo va el capítulo.
 const heroTrack = $(".hero-track");
 const titleBlock = $(".title-block");
 const heroBg = $(".hero-bg");
-const shots = $$(".shot", heroBg);
-const shotN = $("[data-shot-n]"), shotLabel = $("[data-shot-label]");
+const chapterN = $("[data-chapter-n]"), chapterEl = $("[data-chapter]");
+const heroScrim = $(".hero-scrim");
+const CHAPTERS = [[0, "El tucán"], [0.18, "El vuelo"], [0.5, "La bruma"], [0.78, "Las Cataratas"]];
 const MASK_START = 0.3, SHIFT_PX = 225, CENTER_BY = 0.6;
-const CUT = 0.22; // fracción de cada tramo que dura la cortina
-shots.forEach((v) => (v.src = srcFor(v.dataset.shot)));
-const playShot = (v) => v.paused && v.play().catch(() => {});
-playShot(shots[0]);
-
-let reelP = 0;
-ticks.push((now) => {
-  const r = heroTrack.getBoundingClientRect();
-  const range = r.height - innerHeight;
-  const target = range > 0 ? clamp(-r.top / range) : 0;
-  reelP += (target - reelP) * 0.12;
-  const p = reelP;
-
-  // tramo actual y progreso de la cortina dentro del tramo
-  const n = shots.length;
-  const seg = Math.min(n - 1, Math.floor(p * n));
-  const local = p * n - seg;
-  const cut = seg === 0 ? 1 : clamp(local / CUT);
-  shots.forEach((v, i) => {
-    let reveal = i < seg ? 1 : i === seg ? cut : 0;
-    v.style.setProperty("--reveal", reveal.toFixed(4));
-    v.style.setProperty("--push", (1 - reveal).toFixed(4));
-    const visible = i === seg || (i === seg - 1 && cut < 1);
-    v.classList.toggle("is-on", visible);
-    visible || (i === seg + 1 && local > 0.6) ? playShot(v) : v.pause();
-  });
-  const current = cut < 0.5 && seg > 0 ? seg - 1 : seg;
-  shotN.textContent = String(current + 1).padStart(2, "0");
-  shotLabel.textContent = shots[current].dataset.label;
-
-  if (isMobile) return;
-  titleBlock.style.setProperty("--wipe", clamp((p - MASK_START) / (1 - MASK_START)).toFixed(4));
-  heroBg.style.setProperty("--shift", `${(-SHIFT_PX * (1 - clamp(p / CENTER_BY))).toFixed(1)}px`);
-  heroBg.style.setProperty("--zoom", (1.06 + p * 0.06).toFixed(4));
-});
+ticks.push(
+  createScrubber(heroBg, heroTrack, {
+    onFrame: (scrollP, p) => {
+      const i = CHAPTERS.findLastIndex(([at]) => p >= at);
+      chapterN.textContent = String(i + 1).padStart(2, "0");
+      chapterEl.textContent = CHAPTERS[i][1];
+      heroScrim.style.setProperty("--late", clamp((p - 0.7) / 0.25).toFixed(3));
+      if (isMobile) return;
+      titleBlock.style.setProperty("--wipe", clamp((p - MASK_START) / (1 - MASK_START)).toFixed(4));
+      heroBg.style.setProperty("--shift", `${(-SHIFT_PX * (1 - clamp(p / CENTER_BY))).toFixed(1)}px`);
+      heroBg.style.setProperty("--zoom", (1.06 + p * 0.06).toFixed(4));
+    },
+  })
+);
 
 // SERVICIOS: 3 sets que entran/salen con blur sobre la Garganta del Diablo (motor Cortex).
 const solutions = $(".solutions");
@@ -159,7 +149,7 @@ if (!reduceMotion) {
   const start = performance.now();
   let ready = false, shown = 0;
   const done = () => (ready = true);
-  shots[0].readyState >= 2 ? done() : shots[0].addEventListener("loadeddata", done, { once: true });
+  heroBg.readyState >= 2 ? done() : heroBg.addEventListener("loadeddata", done, { once: true });
   setTimeout(done, 7000);
 
   const step = (now) => {

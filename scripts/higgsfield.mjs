@@ -1,13 +1,17 @@
 // Genera los videos de la landing con Higgsfield (Kling 2.5 Turbo Pro) y los baja a media/raw/.
 // Uso: node --env-file=.env scripts/higgsfield.mjs [nombre...]
 import { mkdir, writeFile, readFile } from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+
+// Fotograma de partida de los tramos B (lo deja scripts/upload.mjs)
+const LAST_FRAME_URL = process.env.IMG || (existsSync("media/raw/vuelo_a-last.url") ? readFileSync("media/raw/vuelo_a-last.url", "utf8").trim() : undefined);
 
 const KEY = process.env.HIGGS;
 if (!KEY) throw new Error("Falta HIGGS en .env (formato id:secret)");
 
 const API = "https://api.higgsfield.ai";
 const MODEL = "/kling-video/v2.5-turbo/pro/text-to-video";
+const I2V = "/kling-video/v2.5-turbo/pro/image-to-video";
 const NEGATIVE =
   "text, letters, watermark, logo, people, tourists, boats, buildings, cuts, scene change, shaky camera, fisheye, blurry, low quality, oversaturated, cartoon, cgi look";
 
@@ -28,6 +32,15 @@ export const SHOTS = {
   },
   // Montaje del hero — plano 4: la vorágine real, remolino del río bajo la Garganta.
   rio: `Ultra cinematic top-down aerial drone shot looking straight down at the dark churning river below the Devil's Throat at Iguazu Falls. Thick white foam swirls into a giant spiral whirlpool on the deep black-green water, mist drifting across the frame, the spiral sits in the left half of the frame. The camera slowly rotates and descends toward the vortex. Moody low-key light, high contrast, deep blacks, shot on ARRI Alexa, natural film grain, photorealistic, one continuous take, perfectly smooth motion, no cuts.`,
+  // Hero v3 — viaje continuo en 2 tramos encadenados (el B arranca del último frame del A).
+  vuelo_a: {
+    prompt: `Ultra cinematic continuous tracking shot, one single take. It opens on a toco toucan perched in elegant side profile on a dark mossy branch in the left third of the frame, low-key lighting, almost pure black background with slow drifting waterfall mist. The toucan leans forward, spreads its wings and takes flight toward the right and into the depth of the frame; the camera smoothly follows right behind it, flying through dark subtropical jungle, mist and shafts of cold silver light sweeping past, droplets sparkling. The toucan keeps gliding ahead in frame while the jungle slowly gets brighter and more misty, as if approaching a giant waterfall. Smooth steadicam-like camera motion, no cuts, photorealistic, shot on ARRI Alexa, anamorphic, natural film grain.`,
+    negative: "text, letters, watermark, logo, people, buildings, cuts, scene change, cartoon, cgi look, deformed bird, extra wings, extra legs, shaky camera, blurry, low quality, daylight at the start",
+  },
+  // Tramo B — tres propuestas A/B/C (prompts afinados por panel de agentes), mismo frame de partida.
+  vuelo_b1: { model: I2V, image_url: LAST_FRAME_URL, prompt: "Seamless continuation of the same unbroken tracking shot, one continuous take: same anamorphic lens, same cold silver light from the upper left, same low-key dark teal grading, constant exposure, same slow steadicam-like forward glide. The camera glides straight ahead behind the same toucan (dark maroon plumage, yellow throat, dark red-edged bill, teal wing coverts), flying on with slow wingbeats, then gliding. First the mossy foreground trunk, hanging vines and palm fronds slide out past the left edge. Then the last trees slip past on both sides and the mist thins; the tall misty waterfall behind the trunk comes into full view and widens, more waterfalls appearing beyond it, until the colossal Iguazu Falls spread across the view ahead: hundreds of white waterfalls pouring over jungle-crowned tiers of dark basalt in a vast horseshoe, the Devil's Throat dead ahead, towering spray clouds rising from the gorge, a faint pale rainbow in the mist. The toucan peels away to the left, wings tilting, growing smaller as it glides out of the left edge of frame, while the camera holds its straight course. In the final seconds the camera pushes slowly toward the heart of the Devil's Throat, fine spray drifting past the lens, the massive falls filling the frame. Photorealistic, shot on ARRI Alexa, natural film grain, perfectly smooth motion.", negative: "text, letters, watermark, logo, people, tourists, boats, buildings, walkways, railings, cut, jump cut, scene change, transition, fade, flicker, sudden brightness change, abrupt color shift, warm sunset light, golden hour, clear blue sky, harsh sunlight, oversaturated, double rainbow, cartoon, cgi look, 3d render, morphing, deformed bird, deformed wings, distorted beak, orange beak, extra wings, extra birds, second toucan, flock, camera shake, whip pan, zoom out, static image, letterbox, black bars, low quality", cfg_scale: 0.6 },
+  vuelo_b2: { model: I2V, image_url: LAST_FRAME_URL, prompt: "Seamless continuation of the same shot. Photorealistic, ARRI Alexa, anamorphic lens, fine film grain, cold silver-blue grade, low-key exposure held constant. The same toucan, yellow throat, red-edged dark bill, teal wing coverts, glides to the right past a dark mossy trunk in the left foreground, a tall misty waterfall behind it, dark jungle around. At first nothing changes: the camera keeps tracking forward and right at the same slow pace, the toucan gives slow shallow wingbeats, the trunk drifts out of the left edge. Then the camera begins to rise while still pushing forward, climbing beside the toucan; mist and pale light shafts sink away below, the last treetops pass beneath the camera. Above the canopy the land opens out: the whole horseshoe of Iguazu Falls curves across the view ahead, the tall waterfall now one of hundreds pouring over a dark cliff, the Devil's Throat far ahead with a tall column of mist rising slowly, a thin band of cold gold first light on the horizon under a steel-blue sky, a faint rainbow in the spray. The toucan holds its course; as the camera overtakes it, the bird drifts toward the left edge of frame and slips out. The camera keeps advancing slowly and steadily, high and wide over the falls, sky still mostly dark.", negative: "cut, scene change, second bird, morphing bird, distorted beak, deformed wings, text, watermark, logo, people, boats, walkways, railings, buildings, helicopter, bright daylight, orange sky, overexposed, flicker, shaky camera, cartoon", cfg_scale: 0.6 },
+  vuelo_b3: { model: I2V, image_url: LAST_FRAME_URL, prompt: "One continuous take, already in motion on the first frame: the camera keeps tracking right and forward at the same steady speed, behind the toucan, as the dark foreground trunk slides out of the left edge and the bird glides fully into view on spread wings. Same bird throughout: dark maroon body, yellow throat, dark bill with a red tip, silver and teal wings. After one second the toucan tips its bill down and dives steeply forward and down, wings swept half back; the camera pitches down and follows at the same distance, the canopy rushing up past the frame. Below, a deep gorge opens: colossal curtains of white water fall on both sides and grow taller as the camera drops, cold silver light scattering in the spray. Dense pale mist floods the frame, almost white; the toucan banks left and vanishes into it. The camera keeps descending through the mist and tilts to look straight down: directly below, white foam spirals in a slow whirlpool on near-black river water. The camera sinks toward the dark eye of the whirlpool until black water fills the frame, the last foam streaks dimming. Photorealistic, ARRI Alexa, anamorphic lens, fine film grain, low-key cold grading, smooth steadicam motion, no cuts.", negative: "text, watermark, logo, people, boats, buildings, walkways, railings, second bird, flock, extra wings, deformed beak, orange beak, morphing, scene change, cut, freeze frame, static camera, shaky camera, slow motion, warm sunlight, rainbow, bright sky, snow, cartoon, cgi look", cfg_scale: 0.6 },
   // Logo vivo: "vorágine" = remolino. Se usa con mix-blend-mode: lighten sobre negro.
   vortex: {
     duration: 5,
@@ -41,7 +54,9 @@ const headers = { Authorization: `Key ${KEY}`, "Content-Type": "application/json
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function generate(name, shot) {
-  const { prompt, duration = 10, negative = NEGATIVE } = typeof shot === "string" ? { prompt: shot } : shot;
+  const { prompt, duration = 10, negative = NEGATIVE, model = MODEL, image_url, cfg_scale = 0.5 } = typeof shot === "string" ? { prompt: shot } : shot;
+  if (model.includes("image-to-video") && !image_url) throw new Error(`[${name}] falta la URL del frame de partida (scripts/upload.mjs o IMG)`);
+  if (prompt.startsWith("__")) throw new Error(`[${name}] prompt sin completar`);
   const out = `media/raw/${name}.mp4`;
   if (existsSync(out)) return console.log(`[${name}] ya existe ${out}, salteo`);
 
@@ -49,10 +64,10 @@ async function generate(name, shot) {
   const stateFile = `media/raw/${name}.request.json`;
   let req = existsSync(stateFile) ? JSON.parse(await readFile(stateFile, "utf8")) : null;
   if (!req) {
-    const res = await fetch(API + MODEL, {
+    const res = await fetch(API + model, {
       method: "POST",
       headers: { ...headers, "Idempotency-Key": `voragine-${name}-v1` },
-      body: JSON.stringify({ prompt, negative_prompt: negative, duration, cfg_scale: 0.5 }),
+      body: JSON.stringify({ prompt, negative_prompt: negative, duration, cfg_scale, ...(image_url && { image_url }) }),
     });
     if (!res.ok) throw new Error(`[${name}] submit ${res.status}: ${await res.text()}`);
     req = await res.json();

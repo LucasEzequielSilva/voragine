@@ -218,8 +218,13 @@ a { color: inherit; text-decoration: none; }
 .hero-scrim {
   position: absolute;
   inset: 0;
-  /* solo un velo en la base para legibilidad del cluster inferior */
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent 38%);
+  /* velo en la base para el cluster inferior; --late (0→1) lo refuerza al final del viaje,
+     cuando las Cataratas blancas llenan el cuadro */
+  --late: 0;
+  background:
+    linear-gradient(to top, rgba(0, 0, 0, calc(0.55 + var(--late) * 0.3)), transparent calc(38% + var(--late) * 22%)),
+    linear-gradient(to right, rgba(0, 0, 0, calc(var(--late) * 0.45)), transparent 45%),
+    linear-gradient(to bottom, rgba(0, 0, 0, calc(var(--late) * 0.5)), transparent 22%);
   pointer-events: none;
 }
 
@@ -753,25 +758,7 @@ body::before {
   pointer-events: none;
 }
 
-/* ─── Hero montaje: planos apilados, cortina vertical tipo agua ─── */
-.hero-reel { overflow: hidden; }
-.hero-reel .shot {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 30% center;
-  background: #000;
-  /* --reveal 0 → tapado arriba; 1 → visible. Entra desde arriba como agua cayendo */
-  clip-path: inset(0 0 calc((1 - var(--reveal, 0)) * 100%) 0);
-  transform: translate3d(0, calc(var(--push, 0) * -6%), 0) scale(1.02);
-  visibility: hidden;
-  will-change: clip-path, transform;
-}
-.hero-reel .shot.is-on { visibility: visible; }
-.hero-reel .shot:first-child { --reveal: 1; }
-
+/* ─── Capítulo del viaje (hero) ─── */
 .shot-counter {
   bottom: var(--pad-x);
   left: var(--pad-x);
@@ -781,9 +768,4 @@ body::before {
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-@media (max-width: 900px) {
-  .hero-reel .shot { object-position: 38% center; }
-  .shot-counter { display: none; }
-}
-.hero-reel .shot:first-child { visibility: visible; }
-.hero-reel .shot[data-shot="rio"] { filter: brightness(0.68) contrast(1.05); }
+@media (max-width: 900px) { .shot-counter { display: none; } }
