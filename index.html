@@ -3,194 +3,129 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Vorágine. — Agencia creativa · Puerto Iguazú</title>
-    <meta name="description" content="Vorágine es una agencia de marketing creativo nacida frente a las Cataratas del Iguazú. Estrategia, contenido y performance para marcas imposibles de ignorar." />
+    <title>Vorágine. — Agencia de marketing · Puerto Iguazú</title>
+    <meta name="description" content="Vorágine es la agencia de marketing de Puerto Iguazú. Tu negocio ya está en el lugar que todo el mundo quiere ver. Falta que te vean." />
     <meta name="theme-color" content="#000000" />
-    <meta property="og:title" content="Vorágine. — Marcas imposibles de ignorar" />
-    <meta property="og:description" content="Agencia de marketing creativo desde Puerto Iguazú, Argentina." />
-    <meta property="og:image" content="/video/viaje.jpg" />
+    <meta property="og:title" content="Vorágine. — Falta que te vean." />
+    <meta property="og:description" content="Agencia de marketing para los negocios de Puerto Iguazú y la Triple Frontera." />
+    <meta property="og:image" content="/video/plate.jpg" />
     <link rel="icon" href="/favicon.svg" />
+    <script>document.documentElement.classList.add("js")</script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <!-- Preloader: espera a que el video del hero tenga datos para scrubear -->
-    <div class="loader" aria-hidden="true">
-      <span class="loader__name">Vorágine.</span>
-      <span class="loader__count">000</span>
+    <!-- Una sola placa de video, tres capas: la base y dos revelaciones que muestran la misma placa 1 s adelante -->
+    <div class="stage" id="stage" aria-hidden="true">
+      <video id="v1" muted playsinline preload="auto" tabindex="-1" poster="/video/plate.jpg" src="/video/plate.mp4"></video>
+    </div>
+    <div class="reveal reveal--a" id="ra" aria-hidden="true">
+      <video id="v2" muted playsinline preload="metadata" tabindex="-1" src="/video/plate.mp4"></video>
+    </div>
+    <div class="reveal reveal--b" id="rb" aria-hidden="true">
+      <video id="v3" muted playsinline preload="metadata" tabindex="-1" src="/video/plate.mp4"></video>
     </div>
 
-    <!-- Logo vivo: remolino (vorágine) con blend lighten. El blend va en .brand-layer, no adentro del crop. -->
-    <a href="#top" class="brand-layer" aria-label="Vorágine — inicio">
-      <span class="brand-frame">
-        <video class="brand" autoplay muted loop playsinline preload="auto" poster="/video/vortex.jpg">
-          <source src="/video/vortex.mp4" type="video/mp4" />
-        </video>
-      </span>
-      <span class="brand-word">Vorágine.</span>
-    </a>
+    <!-- Escenas que flotan sobre la placa durante el recorrido -->
+    <div class="scenes" aria-hidden="true">
+      <!-- 01 · Manifiesto -->
+      <section class="scene scene--statement" data-scene="statement">
+        <p class="eyebrow">01 — Puerto Iguazú, Misiones</p>
+        <p class="statement">Tu negocio ya está en el lugar que todo el mundo quiere ver.<br /><em>Falta que te vean.</em></p>
+      </section>
 
-    <div class="actions">
-      <a href="#contacto" class="btn btn--pill btn--fill" data-cta="header">Agendá una llamada</a>
-      <button type="button" class="btn btn--pill btn--ghost" data-menu-open aria-expanded="false" aria-controls="menu">Menú</button>
+      <!-- 02 · Para quién (las filas vuelan en pares) -->
+      <section class="scene scene--who" data-scene="who">
+        <div class="who__head">
+          <p class="eyebrow">02 — Para quién</p>
+          <h2 class="h2">Hecho para los que mueven Iguazú.</h2>
+        </div>
+        <div class="who__cols">
+          <div class="who__col who__col--l">
+            <p class="row" data-row="0"><span class="row__t">Hotelería &amp; lodges</span><span class="row__d">Más reservas directas</span></p>
+            <p class="row" data-row="1"><span class="row__t">Gastronomía</span><span class="row__d">Mesas llenas todo el año</span></p>
+            <p class="row" data-row="2"><span class="row__t">Excursiones</span><span class="row__d">Vender antes de que lleguen</span></p>
+          </div>
+          <div class="who__col who__col--r">
+            <p class="row" data-row="0"><span class="row__t">Comercio &amp; Feirinha</span><span class="row__d">Que te encuentren</span></p>
+            <p class="row" data-row="1"><span class="row__t">Real estate</span><span class="row__d">Lanzar con lista de espera</span></p>
+            <p class="row" data-row="2"><span class="row__t">Marcas en expansión</span><span class="row__d">De Iguazú al país</span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 · Servicios (uno por vez, salen en 3D) -->
+      <section class="scene scene--services" data-scene="services">
+        <p class="eyebrow">03 — Qué hacemos</p>
+        <div class="services">
+          <div class="svc exit-3d is-gone" data-svc><span class="svc__n">01</span><span class="svc__t">Estrategia</span><span class="svc__d">Posicionamiento y mensaje. Qué te hace único y a quién se lo decimos.</span></div>
+          <div class="svc exit-3d is-gone" data-svc><span class="svc__n">02</span><span class="svc__t">Contenido &amp; IA</span><span class="svc__d">Video, foto y piezas generativas con nivel de campaña internacional.</span></div>
+          <div class="svc exit-3d is-gone" data-svc><span class="svc__n">03</span><span class="svc__t">Performance</span><span class="svc__d">Meta y Google Ads, embudos y landings. Medimos cada peso.</span></div>
+          <div class="svc exit-3d is-gone" data-svc><span class="svc__n">04</span><span class="svc__t">Web &amp; Conversión</span><span class="svc__d">Sitios como este: rápidos, cinematográficos y hechos para vender.</span></div>
+        </div>
+      </section>
+
+      <!-- 04 · Números (salen en 3D, como el título) -->
+      <section class="scene scene--stats" data-scene="stats">
+        <p class="eyebrow">04 — La escala del lugar</p>
+        <dl class="stat exit-3d is-gone" data-stat><dt>Países en una esquina</dt><dd>3</dd></dl>
+        <dl class="stat exit-3d is-gone" data-stat><dt>Saltos de agua a minutos</dt><dd>275</dd></dl>
+        <dl class="stat exit-3d is-gone" data-stat><dt>Visitantes por año</dt><dd>+1 M</dd></dl>
+      </section>
     </div>
 
-    <nav class="menu" id="menu" aria-label="Principal" hidden>
-      <ol class="menu__list">
-        <li><a href="#manifiesto"><span>01</span>Manifiesto</a></li>
-        <li><a href="#servicios"><span>02</span>Servicios</a></li>
-        <li><a href="#rubros"><span>03</span>Para quién</a></li>
-        <li><a href="#proceso"><span>04</span>Proceso</a></li>
-        <li><a href="#contacto"><span>05</span>Contacto</a></li>
-      </ol>
-      <p class="menu__foot">Puerto Iguazú, Misiones — Argentina</p>
-    </nav>
+    <!-- Chrome fijo: header, título que sale y vuelve en 3D -->
+    <div class="chrome">
+      <header class="header">
+        <a href="#top" class="brand-layer" aria-label="Vorágine — inicio">
+          <span class="brand-frame"><video class="brand" autoplay muted loop playsinline preload="auto" poster="/video/vortex.jpg" src="/video/vortex.mp4"></video></span>
+          <span class="brand-word">Vorágine.</span>
+        </a>
+        <nav class="header__nav">
+          <a href="#contacto" class="btn btn--ghost" data-cta="header-wa" data-whatsapp>WhatsApp</a>
+          <a href="#contacto" class="btn btn--fill" data-cta="header">Agendá una llamada</a>
+        </nav>
+      </header>
 
-    <main id="top">
-      <!-- 001 · HERO — video scrubeado por scroll, shift horizontal y wipe del título -->
-      <section class="hero-track" data-scrub="hero">
-        <div class="hero">
-          <video class="hero-bg" muted playsinline preload="auto" poster="/video/viaje.jpg" data-video="viaje"></video>
-          <div class="hero-scrim" aria-hidden="true"></div>
-          <p class="shot-counter" aria-hidden="true"><span data-chapter-n>01</span> / 04 — <span data-chapter>El tucán</span></p>
+      <div class="title exit-3d" id="title">
+        <p class="title__tag">Agencia de marketing · Puerto Iguazú · Triple Frontera</p>
+        <h1 class="title__mark">Vorágine<span class="title__dot">.</span></h1>
+        <p class="title__hint">Scrolleá para recorrer Iguazú</p>
+      </div>
 
-          <p class="meta">
-            <span>Desde Puerto Iguazú</span>
-            <span>Para el mundo (<time data-clock>--:--</time>)</span>
-          </p>
+      <div class="progress" aria-hidden="true">
+        <span class="progress__stop" data-stop="La ciudad"></span>
+        <span class="progress__stop" data-stop="El río"></span>
+        <span class="progress__stop" data-stop="La selva"></span>
+        <span class="progress__stop" data-stop="Las pasarelas"></span>
+        <span class="progress__stop" data-stop="La Garganta"></span>
+        <span class="progress__stop" data-stop="La vorágine"></span>
+        <i class="progress__bar"></i>
+      </div>
+    </div>
 
-          <p class="approach">Nuestro enfoque creativo</p>
+    <!-- Pista de scroll: el único elemento en flujo durante el recorrido -->
+    <div class="runway" id="top"></div>
 
-          <div class="title-block">
-            <p class="bullet">Abiertos a nuevos proyectos</p>
-            <h1 class="headline">
-              <span>Marcas imposibles</span>
-              <span>de ignorar.</span>
-            </h1>
-          </div>
-
-          <div class="divider" aria-hidden="true"></div>
-
-          <div class="cta">
-            <p class="cta__line">Creatividad con la fuerza de las Cataratas. Resultados medibles.</p>
-            <a href="#contacto" class="btn btn--cta" data-cta="hero">Empezar un proyecto</a>
-          </div>
-
-          <ul class="services">
-            <li>Estrategia de marca</li>
-            <li>Contenido &amp; IA</li>
-            <li>Performance</li>
-            <li>Web &amp; Conversión</li>
-          </ul>
-
-          <p class="scroll-hint" aria-hidden="true">Scrolleá <span></span></p>
-        </div>
-      </section>
-
-      <!-- 002 · MANIFIESTO -->
-      <section class="manifesto" id="manifiesto">
-        <div class="wrap">
-          <p class="label reveal">002 — Manifiesto</p>
-          <div class="definition reveal">
-            <p class="definition__word">vo·rá·gi·ne <em>f.</em></p>
-            <p class="definition__text">Remolino impetuoso que hacen en algunos parajes las aguas del mar, de los ríos o de los lagos.</p>
-            <p class="definition__src">— RAE</p>
-          </div>
-          <p class="statement" data-words>
-            Nacimos a minutos de 275 saltos de agua. Aprendimos que la fuerza no se explica: se siente. Eso hacemos con tu marca — crear un movimiento tan potente que tu audiencia no pueda evitar entrar.
-          </p>
-          <div class="manifesto__grid">
-            <div class="stat reveal"><span class="stat__n" data-count="275">0</span><span class="stat__l">saltos de agua nos enseñaron sobre escala</span></div>
-            <div class="stat reveal"><span class="stat__n" data-count="80" data-suffix=" m">0</span><span class="stat__l">de caída en la Garganta del Diablo: así pensamos el impacto</span></div>
-            <div class="stat reveal"><span class="stat__n" data-count="3">0</span><span class="stat__l">países a la vista. Pensamos local, ejecutamos global</span></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 003–005 · SERVICIOS — sticky con video scrubeado (Garganta del Diablo) -->
-      <section class="solutions" id="servicios" data-scrub="garganta">
-        <div class="solutions__stage">
-          <video class="solutions__bg" muted playsinline preload="auto" poster="/video/garganta.jpg" data-video="garganta"></video>
-          <div class="solutions__shade" aria-hidden="true"></div>
-          <div class="solutions__progress" aria-hidden="true"><span></span></div>
-
-          <div class="sets">
-            <article class="set" data-set="0">
-              <p class="label">003 — Estrategia</p>
-              <h2 class="set__top">Claridad antes</h2>
-              <h2 class="set__bottom">que ruido.</h2>
-              <p class="set__copy">Posicionamiento, propuesta de valor y arquitectura de marca. Definimos qué te hace inevitable y a quién se lo decimos.</p>
-            </article>
-            <article class="set" data-set="1">
-              <p class="label">004 — Contenido &amp; IA</p>
-              <h2 class="set__top">Imagen que frena</h2>
-              <h2 class="set__bottom">el scroll.</h2>
-              <p class="set__copy">Producción audiovisual, foto, motion y video generativo con IA. Piezas con nivel de campaña internacional, a ritmo de redes.</p>
-            </article>
-            <article class="set" data-set="2">
-              <p class="label">005 — Performance</p>
-              <h2 class="set__top">Pauta que</h2>
-              <h2 class="set__bottom">convierte.</h2>
-              <p class="set__copy">Meta Ads, Google Ads, embudos y landing pages. Medimos cada peso invertido y escalamos lo que funciona.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- 006 · RUBROS -->
-      <section class="sectors" id="rubros">
-        <div class="wrap">
-          <div class="section-head">
-            <p class="label reveal">006 — Para quién</p>
-            <h2 class="h2" data-words>Marcas con ambición más grande que su código postal.</h2>
-          </div>
-          <ul class="rows">
-            <li class="row reveal"><span class="row__n">01</span><span class="row__t">Hotelería &amp; lodges</span><span class="row__d">Ocupación directa, menos dependencia de OTAs.</span></li>
-            <li class="row reveal"><span class="row__n">02</span><span class="row__t">Turismo &amp; experiencias</span><span class="row__d">Reservas desde Argentina, Brasil y el mundo.</span></li>
-            <li class="row reveal"><span class="row__n">03</span><span class="row__t">Gastronomía</span><span class="row__d">Mesas llenas y una marca que se recomienda sola.</span></li>
-            <li class="row reveal"><span class="row__n">04</span><span class="row__t">Real estate &amp; desarrollos</span><span class="row__d">Lanzamientos con lista de espera.</span></li>
-            <li class="row reveal"><span class="row__n">05</span><span class="row__t">Marcas en expansión</span><span class="row__d">De referente regional a jugador nacional.</span></li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- 007 · PROCESO -->
-      <section class="process" id="proceso">
-        <div class="wrap">
-          <div class="section-head">
-            <p class="label reveal">007 — Proceso</p>
-            <h2 class="h2" data-words>Del primer llamado a la primera campaña.</h2>
-          </div>
-          <ol class="steps">
-            <li class="step reveal"><span class="step__n">01</span><h3>Inmersión</h3><p>Auditoría de marca, competencia y números. Entendemos dónde está la corriente.</p></li>
-            <li class="step reveal"><span class="step__n">02</span><h3>Estrategia</h3><p>Posicionamiento, mensajes y plan de canales con objetivos medibles.</p></li>
-            <li class="step reveal"><span class="step__n">03</span><h3>Producción</h3><p>Creatividad, contenido y piezas listas para salir a pauta.</p></li>
-            <li class="step reveal"><span class="step__n">04</span><h3>Escala</h3><p>Optimizamos semana a semana y redoblamos lo que rinde.</p></li>
-          </ol>
-        </div>
-      </section>
-
-      <!-- 008 · CONTACTO / CONVERSIÓN -->
+    <!-- Cierre en flujo: conversión -->
+    <main class="after">
       <section class="contact" id="contacto">
-        <video class="contact__bg" autoplay muted loop playsinline preload="none" poster="/video/hero.jpg" data-lazy="hero"></video>
-        <div class="contact__shade" aria-hidden="true"></div>
         <div class="wrap contact__grid">
           <div>
-            <p class="label reveal">008 — Contacto</p>
-            <h2 class="contact__title" data-words>¿Listo para entrar en la vorágine?</h2>
-            <p class="contact__copy reveal">Contanos de tu marca. Te respondemos en menos de 24 h hábiles con una primera lectura y próximos pasos.</p>
-            <ul class="contact__direct reveal">
+            <p class="eyebrow">05 — Contacto</p>
+            <h2 class="contact__title">¿Listo para entrar en la vorágine?</h2>
+            <p class="contact__copy">Contanos de tu negocio. Te respondemos en menos de 24 h hábiles con una primera lectura y próximos pasos. Estamos en Puerto Iguazú: nos juntamos a tomar un café.</p>
+            <ul class="contact__direct">
               <li><a href="#" data-whatsapp data-cta="whatsapp-direct">WhatsApp ↗</a></li>
               <li><a href="#" data-email data-cta="email-direct">Email ↗</a></li>
               <li><a href="#" data-instagram target="_blank" rel="noopener">Instagram ↗</a></li>
             </ul>
           </div>
-
-          <form class="form reveal" data-lead-form novalidate>
+          <form class="form" data-lead-form novalidate>
             <label class="field"><span>Nombre</span><input name="nombre" autocomplete="name" required /></label>
-            <label class="field"><span>Marca / empresa</span><input name="marca" autocomplete="organization" required /></label>
+            <label class="field"><span>Negocio</span><input name="marca" autocomplete="organization" required /></label>
             <fieldset class="field field--chips">
               <legend>¿Qué necesitás?</legend>
               <label><input type="checkbox" name="necesidad" value="Estrategia" /><span>Estrategia</span></label>
@@ -202,10 +137,10 @@
               <span>Inversión mensual estimada</span>
               <select name="inversion">
                 <option value="">Elegí un rango</option>
-                <option>Hasta USD 1.000</option>
-                <option>USD 1.000 – 3.000</option>
-                <option>USD 3.000 – 10.000</option>
-                <option>Más de USD 10.000</option>
+                <option>Hasta USD 500</option>
+                <option>USD 500 – 1.500</option>
+                <option>USD 1.500 – 5.000</option>
+                <option>Más de USD 5.000</option>
               </select>
             </label>
             <label class="field"><span>Mensaje</span><textarea name="mensaje" rows="3"></textarea></label>
@@ -214,19 +149,16 @@
           </form>
         </div>
       </section>
+      <footer class="footer">
+        <div class="footer__big" aria-hidden="true">Vorágine.</div>
+        <div class="footer__row">
+          <span>Puerto Iguazú, Misiones — AR</span>
+          <span>25°41′S 54°26′O</span>
+          <span>Hora local <time data-clock>--:--</time></span>
+          <span>© <span data-year>2026</span> Vorágine</span>
+        </div>
+      </footer>
     </main>
-
-    <footer class="footer">
-      <div class="footer__big" aria-hidden="true">Vorágine.</div>
-      <div class="footer__row">
-        <span>Puerto Iguazú, Misiones — AR</span>
-        <span>25°41′S 54°26′O</span>
-        <span>Hora local <time data-clock>--:--</time></span>
-        <span>© <span data-year>2026</span> Vorágine</span>
-      </div>
-    </footer>
-
-    <a href="#" class="float-wa" data-whatsapp data-cta="whatsapp-float" aria-label="Escribinos por WhatsApp">WhatsApp</a>
 
     <script type="module" src="/src/main.js"></script>
   </body>
