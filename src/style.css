@@ -96,7 +96,7 @@ a { color: inherit; text-decoration: none; }
 .statement {
   font-size: clamp(30px, min(4.6vw, 8vh), 76px);
   line-height: 1.04;
-  max-width: 18ch;
+  max-width: 24ch;
 }
 .statement em { font-style: normal; color: var(--mist); }
 

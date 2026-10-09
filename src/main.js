@@ -206,7 +206,7 @@ tickClock(); setInterval(tickClock, 15000);
 $$("[data-year]").forEach((el) => (el.textContent = new Date().getFullYear()));
 
 // ─── Conversión ───
-const waLink = (text = "Hola Vorágine! Tengo un negocio en Iguazú y quiero hablar con ustedes.") =>
+const waLink = (text = "Hola Vorágine! Tengo un negocio en Iguazú y quiero más clientes. ¿Hablamos?") =>
   `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(text)}`;
 $$("[data-whatsapp]").forEach((a) => { a.href = waLink(); a.target = "_blank"; a.rel = "noopener"; });
 $$("[data-email]").forEach((a) => (a.href = `mailto:${CONTACT.email}`));
