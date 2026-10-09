@@ -90,7 +90,8 @@ const titleBlock = $(".title-block");
 const heroBg = $(".hero-bg");
 const chapterN = $("[data-chapter-n]"), chapterEl = $("[data-chapter]");
 const heroScrim = $(".hero-scrim");
-const CHAPTERS = [[0, "El tucán"], [0.18, "El vuelo"], [0.5, "La bruma"], [0.78, "Las Cataratas"]];
+const FINALE = { v1: "Las Cataratas", v2: "Desde el aire", v3: "La vorágine" }[HERO_VARIANT];
+const CHAPTERS = [[0, "El tucán"], [0.18, "El vuelo"], [0.5, "La bruma"], [0.78, FINALE]];
 const MASK_START = 0.3, SHIFT_PX = 225, CENTER_BY = 0.6;
 ticks.push(
   createScrubber(heroBg, heroTrack, {
