@@ -28,7 +28,6 @@ const STATS = { from: 0.77, to: 0.91 };
 const TITLE_IN = [0.917, 1];
 const STAGE_OUT = [0.985, 1];
 const WIPE_VH = 80;
-const WIPE_LEAD = 1; // segundos de adelanto entre capas
 const STOPS = 6;
 
 // ─── Entrada ───
@@ -51,19 +50,17 @@ document.addEventListener("click", (e) => {
   lenis ? lenis.scrollTo(target, { duration: 1.8 }) : target === 0 ? scrollTo(0, 0) : target.scrollIntoView();
 });
 
-// ─── Clips: scrub con lerp + seeks con gate (el mp4 va con todos los frames keyframe) ───
+// ─── Clips: seeks con gate sobre un reloj compartido (el mp4 va con todos los frames keyframe) ───
 function createClip(video) {
-  let cur = 0, seeking = false, lastSeek = 0;
+  let seeking = false, lastSeek = 0;
   video.addEventListener("loadedmetadata", () => { video.pause(); video.currentTime = 0.001; });
   video.addEventListener("seeked", () => (seeking = false));
   return {
     video,
     get dur() { return video.duration && !isNaN(video.duration) ? video.duration : 0; },
-    seek(t, dt, now) {
-      cur += (t - cur) * (1 - Math.exp(-dt * 8));
-      if (Math.abs(t - cur) < 0.002) cur = t;
-      if (!seeking && Math.abs(cur - video.currentTime) > 0.01 && now - lastSeek > 30) {
-        seeking = true; lastSeek = now; video.currentTime = cur;
+    seek(t, now) {
+      if (!seeking && Math.abs(t - video.currentTime) > 0.01 && now - lastSeek > 30) {
+        seeking = true; lastSeek = now; video.currentTime = t;
       }
     },
   };
@@ -157,7 +154,9 @@ function updateReveals(p) {
   setVar(stage, "--stage-out", Math.max(ramp(a, 0.93, 0.98), ramp(p, ...STAGE_OUT)).toFixed(3));
   stage.classList.toggle("is-covered", a >= 1);
   ra.classList.toggle("is-covered", b >= 1);
-  return [a < 1, a > 0 && b < 1, b > 0];
+  // las capas de revelación se precalientan un poco antes de abrirse para que ya estén en el mismo cuadro
+  const warm = 0.04;
+  return [a < 1, p > REVEAL_A - warm && b < 1, p > REVEAL_B - warm];
 }
 
 function updateShade(p) {
@@ -178,12 +177,15 @@ function updateProgress(p) {
   stops.forEach((s, k) => s.classList.toggle("is-active", k === i));
 }
 
-// Línea de tiempo continua: cada capa va WIPE_LEAD s adelante de la anterior
+// Un solo reloj suavizado para las tres capas: la imagen es la misma a ambos lados del borde
+let smoothT = 0;
 function updateScrub(p, dt, now, visible) {
   const dur = clips[0].dur;
   if (!dur) return;
-  const span = dur - 2 * WIPE_LEAD - 0.05;
-  clips.forEach((c, i) => { if (visible[i]) c.seek(p * span + i * WIPE_LEAD, dt, now); });
+  const target = p * (dur - 0.05);
+  smoothT += (target - smoothT) * (1 - Math.exp(-dt * 8));
+  if (Math.abs(target - smoothT) < 0.002) smoothT = target;
+  clips.forEach((c, i) => { if (visible[i]) c.seek(smoothT, now); });
 }
 
 const progressP = () => clamp(scrollY / Math.max(1, runway.offsetHeight - H));
