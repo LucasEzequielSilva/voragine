@@ -64,7 +64,7 @@ a { color: inherit; text-decoration: none; }
   .btn--ghost:hover { background: rgba(255, 255, 255, 0.16); }
 }
 
-/* ─── Placa: base + revelaciones ─── */
+/* ─── Placa ─── */
 .stage {
   position: fixed; inset: 0; z-index: 0;
   opacity: calc(1 - var(--stage-out, 0));
@@ -72,24 +72,6 @@ a { color: inherit; text-decoration: none; }
 }
 .stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-/* Caja con overflow:hidden cuyo ancho crece mientras rota; el video adentro se contra-rota
-   para quedar derecho. El medio está fijo a 100vw×100vh, así el crecimiento revela, no estira. */
-.reveal {
-  --rot: calc(var(--reveal, 0) * var(--angle));
-  position: fixed; top: 50%; left: 50%;
-  width: calc(var(--reveal, 0) * var(--span-w)); height: var(--span-h);
-  transform: translate(-50%, -50%) rotate(var(--rot));
-  overflow: hidden; pointer-events: none; background: #000;
-}
-.reveal--a { z-index: 5; --angle: -45deg; --span-w: calc(72vw + 72vh); --span-h: calc(72vw + 72vh); }
-.reveal--b { z-index: 7; --angle: 0deg; --span-w: 102vw; --span-h: 102vh; }
-.reveal video {
-  position: absolute; top: 50%; left: 50%; width: 100vw; height: 100vh; object-fit: cover;
-  /* mismo cuadro que la base, visto como a través de una lente: leve zoom y grado más contrastado */
-  transform: translate(-50%, -50%) rotate(calc(var(--rot) * -1)) scale(1.08);
-  filter: saturate(1.2) contrast(1.08) brightness(1.06);
-}
-.is-covered { visibility: hidden; }
 
 /* Velo de lectura: oscurece según la escena lo pida (--shade 0→1) */
 .scenes::before {

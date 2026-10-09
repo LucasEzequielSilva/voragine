@@ -17,15 +17,9 @@
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <!-- Una sola placa de video, tres capas: la base y dos revelaciones que muestran la misma placa 1 s adelante -->
+    <!-- Una sola placa de video continua, scrubeada por el scroll -->
     <div class="stage" id="stage" aria-hidden="true">
       <video id="v1" muted playsinline preload="auto" tabindex="-1" poster="/video/plate.jpg" src="/video/plate.mp4"></video>
-    </div>
-    <div class="reveal reveal--a" id="ra" aria-hidden="true">
-      <video id="v2" muted playsinline preload="metadata" tabindex="-1" src="/video/plate.mp4"></video>
-    </div>
-    <div class="reveal reveal--b" id="rb" aria-hidden="true">
-      <video id="v3" muted playsinline preload="metadata" tabindex="-1" src="/video/plate.mp4"></video>
     </div>
 
     <!-- Escenas que flotan sobre la placa durante el recorrido -->

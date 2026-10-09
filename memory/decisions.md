@@ -30,3 +30,8 @@
   empalmando con el fondo negro del manifiesto. El usuario pidió que eligiera yo.
 - Descartado: V1 revelación (más segura pero genérica), V2 ascenso aéreo (tucán se deforma, final claro choca con el negro).
 - Revisable: sí; los clips crudos vuelo_b1/b2 siguen en media/raw para reconstruir.
+
+## 2026-10-09 — Un solo video continuo, sin revelaciones diagonales
+- Por qué: las franjas giratorias (copiadas de PLATE) hacían que "parezca un video" y rompían la sensación de plano único; el usuario quiere que todo parezca UNO.
+- Qué queda: una sola placa scrubeada por scroll; el dinamismo lo ponen el recorrido, los textos que salen en 3D y los cambios de luz del propio video.
+- Descartado: capas desfasadas 1 s y grado de lente (probado, seguía leyéndose como otro video).

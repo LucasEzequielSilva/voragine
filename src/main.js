@@ -1,5 +1,5 @@
-// "Río arriba" — motor de scroll: una placa de video continua scrubeada en tres capas,
-// dos revelaciones giratorias y escenas coreografiadas sobre p = scrollY / (pista − viewport).
+// "Río arriba" — motor de scroll: una sola placa de video continua scrubeada por el scroll
+// y escenas coreografiadas sobre p = scrollY / (pista − viewport).
 import Lenis from "lenis";
 
 // ─── Datos de contacto (completar) ───
@@ -20,14 +20,11 @@ const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 // ─── Mapa del recorrido (fracciones de p) ───
 const TITLE_OUT = [0, 0.083];
 const STATEMENT = { in: [0.1, 0.17], out: [0.27, 0.31] };
-const REVEAL_A = 1 / 3;
 const WHO = { in: [0.37, 0.43], fly: [0.52, 0.62] };
-const SERVICES = { from: 0.63 };
-const REVEAL_B = 2 / 3;
+const SERVICES = { from: 0.63, to: 0.75 };
 const STATS = { from: 0.77, to: 0.91 };
 const TITLE_IN = [0.917, 1];
 const STAGE_OUT = [0.985, 1];
-const WIPE_VH = 80;
 const STOPS = 6;
 
 // ─── Entrada ───
@@ -65,10 +62,10 @@ function createClip(video) {
     },
   };
 }
-const clips = [$("#v1"), $("#v2"), $("#v3")].map(createClip);
+const clip = createClip($("#v1"));
 
 // ─── Elementos ───
-const stage = $("#stage"), ra = $("#ra"), rb = $("#rb");
+const stage = $("#stage");
 const title = $("#title");
 const scenes = Object.fromEntries($$(".scene").map((s) => [s.dataset.scene, s]));
 const scenesRoot = $(".scenes");
@@ -78,13 +75,8 @@ const stats = $$("[data-stat]");
 const progress = $(".progress"), stops = $$(".progress__stop");
 const runway = $(".runway");
 
-let W = innerWidth, H = innerHeight, wipe = 0.1;
-function measure() {
-  W = innerWidth; H = innerHeight;
-  const spanA = 0.72 * (W + H);
-  wipe = Math.min(0.28, (WIPE_VH / 100 * H) / spanA);
-}
-measure();
+let W = innerWidth, H = innerHeight;
+function measure() { W = innerWidth; H = innerHeight; }
 
 // ─── Escritores ───
 const setVar = (el, k, v) => el.style.setProperty(k, v);
@@ -137,26 +129,17 @@ function slots(p, items, from, to, { arrive = 0.3, hold = 0.45 } = {}) {
   });
 }
 function updateServices(p) {
-  const to = Math.min(REVEAL_B + wipe * 0.4, STATS.from - 0.02);
-  sceneIn(scenes.services, p > SERVICES.from - 0.01 && p < to + 0.01 ? 1 : 0);
-  slots(p, svcs, SERVICES.from, to);
+  sceneIn(scenes.services, p > SERVICES.from - 0.01 && p < SERVICES.to + 0.01 ? 1 : 0);
+  slots(p, svcs, SERVICES.from, SERVICES.to);
 }
 function updateStats(p) {
   sceneIn(scenes.stats, p > STATS.from - 0.01 && p < STATS.to + 0.01 ? 1 : 0);
   slots(p, stats, STATS.from, STATS.to, { arrive: 0.34, hold: 0.4 });
 }
 
-function updateReveals(p) {
-  const a = ramp(p, REVEAL_A, REVEAL_A + wipe);
-  const b = ramp(p, REVEAL_B, REVEAL_B + wipe);
-  setVar(ra, "--reveal", a.toFixed(4));
-  setVar(rb, "--reveal", b.toFixed(4));
-  setVar(stage, "--stage-out", Math.max(ramp(a, 0.93, 0.98), ramp(p, ...STAGE_OUT)).toFixed(3));
-  stage.classList.toggle("is-covered", a >= 1);
-  ra.classList.toggle("is-covered", b >= 1);
-  // las capas de revelación se precalientan un poco antes de abrirse para que ya estén en el mismo cuadro
-  const warm = 0.04;
-  return [a < 1, p > REVEAL_A - warm && b < 1, p > REVEAL_B - warm];
+function updateStage(p) {
+  // al final del recorrido la placa se funde a negro para que vuelva el título
+  setVar(stage, "--stage-out", ramp(p, ...STAGE_OUT).toFixed(3));
 }
 
 function updateShade(p) {
@@ -164,7 +147,7 @@ function updateShade(p) {
   const s = Math.max(
     Math.min(expoOut(ramp(p, ...STATEMENT.in)), 1 - ramp(p, ...STATEMENT.out)),
     Math.min(expoOut(ramp(p, ...WHO.in)), 1 - ramp(p, WHO.fly[1], WHO.fly[1] + 0.03)),
-    Math.min(ramp(p, SERVICES.from - 0.02, SERVICES.from), 1 - ramp(p, REVEAL_B, REVEAL_B + wipe)) * 0.8,
+    Math.min(ramp(p, SERVICES.from - 0.02, SERVICES.from), 1 - ramp(p, SERVICES.to - 0.02, SERVICES.to)) * 0.8,
     Math.min(ramp(p, STATS.from - 0.02, STATS.from), 1 - ramp(p, STATS.to, STATS.to + 0.02)) * 0.5
   );
   setVar(scenesRoot, "--shade", s.toFixed(3));
@@ -177,15 +160,15 @@ function updateProgress(p) {
   stops.forEach((s, k) => s.classList.toggle("is-active", k === i));
 }
 
-// Un solo reloj suavizado para las tres capas: la imagen es la misma a ambos lados del borde
+// Reloj suavizado: el scroll mueve el tiempo del video
 let smoothT = 0;
-function updateScrub(p, dt, now, visible) {
-  const dur = clips[0].dur;
+function updateScrub(p, dt, now) {
+  const dur = clip.dur;
   if (!dur) return;
   const target = p * (dur - 0.05);
   smoothT += (target - smoothT) * (1 - Math.exp(-dt * 8));
   if (Math.abs(target - smoothT) < 0.002) smoothT = target;
-  clips.forEach((c, i) => { if (visible[i]) c.seek(smoothT, now); });
+  clip.seek(smoothT, now);
 }
 
 const progressP = () => clamp(scrollY / Math.max(1, runway.offsetHeight - H));
@@ -195,10 +178,10 @@ function drive(p, dt = 0.05, now = performance.now()) {
   updateWho(p);
   updateServices(p);
   updateStats(p);
-  const visible = updateReveals(p);
+  updateStage(p);
   updateShade(p);
   updateProgress(p);
-  if (!reduceMotion) updateScrub(p, dt, now, visible);
+  if (!reduceMotion) updateScrub(p, dt, now);
 }
 
 let last = performance.now();
