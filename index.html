@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Vorágine. — Agencia creativa · Puerto Iguazú</title>
+    <meta name="description" content="Vorágine es una agencia de marketing creativo nacida frente a las Cataratas del Iguazú. Estrategia, contenido y performance para marcas imposibles de ignorar." />
+    <meta name="theme-color" content="#000000" />
+    <meta property="og:title" content="Vorágine. — Marcas imposibles de ignorar" />
+    <meta property="og:description" content="Agencia de marketing creativo desde Puerto Iguazú, Argentina." />
+    <meta property="og:image" content="/video/tucan.jpg" />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Preloader: espera a que el video del hero tenga datos para scrubear -->
+    <div class="loader" aria-hidden="true">
+      <span class="loader__name">Vorágine.</span>
+      <span class="loader__count">000</span>
+    </div>
+
+    <!-- Logo vivo: remolino (vorágine) con blend lighten. El blend va en .brand-layer, no adentro del crop. -->
+    <a href="#top" class="brand-layer" aria-label="Vorágine — inicio">
+      <span class="brand-frame">
+        <video class="brand" autoplay muted loop playsinline preload="auto" poster="/video/vortex.jpg">
+          <source src="/video/vortex.mp4" type="video/mp4" />
+        </video>
+      </span>
+      <span class="brand-word">Vorágine.</span>
+    </a>
+
+    <div class="actions">
+      <a href="#contacto" class="btn btn--pill btn--fill" data-cta="header">Agendá una llamada</a>
+      <button type="button" class="btn btn--pill btn--ghost" data-menu-open aria-expanded="false" aria-controls="menu">Menú</button>
+    </div>
+
+    <nav class="menu" id="menu" aria-label="Principal" hidden>
+      <ol class="menu__list">
+        <li><a href="#manifiesto"><span>01</span>Manifiesto</a></li>
+        <li><a href="#servicios"><span>02</span>Servicios</a></li>
+        <li><a href="#rubros"><span>03</span>Para quién</a></li>
+        <li><a href="#proceso"><span>04</span>Proceso</a></li>
+        <li><a href="#contacto"><span>05</span>Contacto</a></li>
+      </ol>
+      <p class="menu__foot">Puerto Iguazú, Misiones — Argentina</p>
+    </nav>
+
+    <main id="top">
+      <!-- 001 · HERO — video scrubeado por scroll, shift horizontal y wipe del título -->
+      <section class="hero-track" data-scrub="hero">
+        <div class="hero">
+          <video class="hero-bg" muted playsinline preload="auto" poster="/video/tucan.jpg" data-video="tucan"></video>
+          <div class="hero-scrim" aria-hidden="true"></div>
+
+          <p class="meta">
+            <span>Desde Puerto Iguazú</span>
+            <span>Para el mundo (<time data-clock>--:--</time>)</span>
+          </p>
+
+          <p class="approach">Nuestro enfoque creativo</p>
+
+          <div class="title-block">
+            <p class="bullet">Abiertos a nuevos proyectos</p>
+            <h1 class="headline">
+              <span>Marcas imposibles</span>
+              <span>de ignorar.</span>
+            </h1>
+          </div>
+
+          <div class="divider" aria-hidden="true"></div>
+
+          <div class="cta">
+            <p class="cta__line">Creatividad con la fuerza de las Cataratas. Resultados medibles.</p>
+            <a href="#contacto" class="btn btn--cta" data-cta="hero">Empezar un proyecto</a>
+          </div>
+
+          <ul class="services">
+            <li>Estrategia de marca</li>
+            <li>Contenido &amp; IA</li>
+            <li>Performance</li>
+            <li>Web &amp; Conversión</li>
+          </ul>
+
+          <p class="scroll-hint" aria-hidden="true">Scrolleá <span></span></p>
+        </div>
+      </section>
+
+      <!-- 002 · MANIFIESTO -->
+      <section class="manifesto" id="manifiesto">
+        <div class="wrap">
+          <p class="label reveal">002 — Manifiesto</p>
+          <div class="definition reveal">
+            <p class="definition__word">vo·rá·gi·ne <em>f.</em></p>
+            <p class="definition__text">Remolino impetuoso que hacen en algunos parajes las aguas del mar, de los ríos o de los lagos.</p>
+            <p class="definition__src">— RAE</p>
+          </div>
+          <p class="statement" data-words>
+            Nacimos a minutos de 275 saltos de agua. Aprendimos que la fuerza no se explica: se siente. Eso hacemos con tu marca — crear un movimiento tan potente que tu audiencia no pueda evitar entrar.
+          </p>
+          <div class="manifesto__grid">
+            <div class="stat reveal"><span class="stat__n" data-count="275">0</span><span class="stat__l">saltos de agua nos enseñaron sobre escala</span></div>
+            <div class="stat reveal"><span class="stat__n" data-count="80" data-suffix=" m">0</span><span class="stat__l">de caída en la Garganta del Diablo: así pensamos el impacto</span></div>
+            <div class="stat reveal"><span class="stat__n" data-count="3">0</span><span class="stat__l">países a la vista. Pensamos local, ejecutamos global</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 003–005 · SERVICIOS — sticky con video scrubeado (Garganta del Diablo) -->
+      <section class="solutions" id="servicios" data-scrub="garganta">
+        <div class="solutions__stage">
+          <video class="solutions__bg" muted playsinline preload="auto" poster="/video/garganta.jpg" data-video="garganta"></video>
+          <div class="solutions__shade" aria-hidden="true"></div>
+          <div class="solutions__progress" aria-hidden="true"><span></span></div>
+
+          <div class="sets">
+            <article class="set" data-set="0">
+              <p class="label">003 — Estrategia</p>
+              <h2 class="set__top">Claridad antes</h2>
+              <h2 class="set__bottom">que ruido.</h2>
+              <p class="set__copy">Posicionamiento, propuesta de valor y arquitectura de marca. Definimos qué te hace inevitable y a quién se lo decimos.</p>
+            </article>
+            <article class="set" data-set="1">
+              <p class="label">004 — Contenido &amp; IA</p>
+              <h2 class="set__top">Imagen que frena</h2>
+              <h2 class="set__bottom">el scroll.</h2>
+              <p class="set__copy">Producción audiovisual, foto, motion y video generativo con IA. Piezas con nivel de campaña internacional, a ritmo de redes.</p>
+            </article>
+            <article class="set" data-set="2">
+              <p class="label">005 — Performance</p>
+              <h2 class="set__top">Pauta que</h2>
+              <h2 class="set__bottom">convierte.</h2>
+              <p class="set__copy">Meta Ads, Google Ads, embudos y landing pages. Medimos cada peso invertido y escalamos lo que funciona.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 006 · RUBROS -->
+      <section class="sectors" id="rubros">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="label reveal">006 — Para quién</p>
+            <h2 class="h2" data-words>Marcas con ambición más grande que su código postal.</h2>
+          </div>
+          <ul class="rows">
+            <li class="row reveal"><span class="row__n">01</span><span class="row__t">Hotelería &amp; lodges</span><span class="row__d">Ocupación directa, menos dependencia de OTAs.</span></li>
+            <li class="row reveal"><span class="row__n">02</span><span class="row__t">Turismo &amp; experiencias</span><span class="row__d">Reservas desde Argentina, Brasil y el mundo.</span></li>
+            <li class="row reveal"><span class="row__n">03</span><span class="row__t">Gastronomía</span><span class="row__d">Mesas llenas y una marca que se recomienda sola.</span></li>
+            <li class="row reveal"><span class="row__n">04</span><span class="row__t">Real estate &amp; desarrollos</span><span class="row__d">Lanzamientos con lista de espera.</span></li>
+            <li class="row reveal"><span class="row__n">05</span><span class="row__t">Marcas en expansión</span><span class="row__d">De referente regional a jugador nacional.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 007 · PROCESO -->
+      <section class="process" id="proceso">
+        <div class="wrap">
+          <div class="section-head">
+            <p class="label reveal">007 — Proceso</p>
+            <h2 class="h2" data-words>Del primer llamado a la primera campaña.</h2>
+          </div>
+          <ol class="steps">
+            <li class="step reveal"><span class="step__n">01</span><h3>Inmersión</h3><p>Auditoría de marca, competencia y números. Entendemos dónde está la corriente.</p></li>
+            <li class="step reveal"><span class="step__n">02</span><h3>Estrategia</h3><p>Posicionamiento, mensajes y plan de canales con objetivos medibles.</p></li>
+            <li class="step reveal"><span class="step__n">03</span><h3>Producción</h3><p>Creatividad, contenido y piezas listas para salir a pauta.</p></li>
+            <li class="step reveal"><span class="step__n">04</span><h3>Escala</h3><p>Optimizamos semana a semana y redoblamos lo que rinde.</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- 008 · CONTACTO / CONVERSIÓN -->
+      <section class="contact" id="contacto">
+        <video class="contact__bg" autoplay muted loop playsinline preload="none" poster="/video/hero.jpg" data-lazy="hero"></video>
+        <div class="contact__shade" aria-hidden="true"></div>
+        <div class="wrap contact__grid">
+          <div>
+            <p class="label reveal">008 — Contacto</p>
+            <h2 class="contact__title" data-words>¿Listo para entrar en la vorágine?</h2>
+            <p class="contact__copy reveal">Contanos de tu marca. Te respondemos en menos de 24 h hábiles con una primera lectura y próximos pasos.</p>
+            <ul class="contact__direct reveal">
+              <li><a href="#" data-whatsapp data-cta="whatsapp-direct">WhatsApp ↗</a></li>
+              <li><a href="#" data-email data-cta="email-direct">Email ↗</a></li>
+              <li><a href="#" data-instagram target="_blank" rel="noopener">Instagram ↗</a></li>
+            </ul>
+          </div>
+
+          <form class="form reveal" data-lead-form novalidate>
+            <label class="field"><span>Nombre</span><input name="nombre" autocomplete="name" required /></label>
+            <label class="field"><span>Marca / empresa</span><input name="marca" autocomplete="organization" required /></label>
+            <fieldset class="field field--chips">
+              <legend>¿Qué necesitás?</legend>
+              <label><input type="checkbox" name="necesidad" value="Estrategia" /><span>Estrategia</span></label>
+              <label><input type="checkbox" name="necesidad" value="Contenido" /><span>Contenido</span></label>
+              <label><input type="checkbox" name="necesidad" value="Performance" /><span>Performance</span></label>
+              <label><input type="checkbox" name="necesidad" value="Web" /><span>Web</span></label>
+            </fieldset>
+            <label class="field">
+              <span>Inversión mensual estimada</span>
+              <select name="inversion">
+                <option value="">Elegí un rango</option>
+                <option>Hasta USD 1.000</option>
+                <option>USD 1.000 – 3.000</option>
+                <option>USD 3.000 – 10.000</option>
+                <option>Más de USD 10.000</option>
+              </select>
+            </label>
+            <label class="field"><span>Mensaje</span><textarea name="mensaje" rows="3"></textarea></label>
+            <button type="submit" class="btn btn--cta btn--block" data-cta="form">Enviar por WhatsApp</button>
+            <p class="form__note">Se abre WhatsApp con tu mensaje listo. Sin spam.</p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__big" aria-hidden="true">Vorágine.</div>
+      <div class="footer__row">
+        <span>Puerto Iguazú, Misiones — AR</span>
+        <span>25°41′S 54°26′O</span>
+        <span>Hora local <time data-clock>--:--</time></span>
+        <span>© <span data-year>2026</span> Vorágine</span>
+      </div>
+    </footer>
+
+    <a href="#" class="float-wa" data-whatsapp data-cta="whatsapp-float" aria-label="Escribinos por WhatsApp">WhatsApp</a>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
