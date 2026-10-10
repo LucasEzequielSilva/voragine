@@ -16,6 +16,8 @@ const ramp = (p, a, b) => clamp((p - a) / (b - a));
 const expoOut = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
 const easeIn = (t) => t * t;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const isMobile = matchMedia("(max-width: 900px), (pointer: coarse)").matches;
+const saveData = navigator.connection?.saveData === true;
 
 // ─── Mapa del recorrido (fracciones de p) ───
 const TITLE_OUT = [0, 0.083];
@@ -49,8 +51,16 @@ document.addEventListener("click", (e) => {
 
 // ─── Clips: seeks con gate sobre un reloj compartido (el mp4 va con todos los frames keyframe) ───
 function createClip(video) {
-  let seeking = false, lastSeek = 0;
-  video.addEventListener("loadedmetadata", () => { video.pause(); video.currentTime = 0.001; });
+  let seeking = false, lastSeek = 0, unlocked = false;
+  // iOS Safari no pinta los cuadros de un video que nunca se reprodujo, aunque le muevas currentTime.
+  // Solución: reproducirlo una vez (permitido porque va muteado y playsinline) y pausarlo. Si el navegador
+  // bloquea el autoplay (ahorro de batería en iPhone), se destraba con el primer toque.
+  async function unlock() {
+    if (unlocked) return;
+    try { await video.play(); video.pause(); unlocked = true; video.currentTime = 0.001; } catch { /* espera un gesto */ }
+  }
+  video.addEventListener("loadedmetadata", () => { video.currentTime = 0.001; unlock(); });
+  ["touchend", "pointerup", "click", "keydown"].forEach((ev) => addEventListener(ev, unlock, { passive: true }));
   video.addEventListener("seeked", () => (seeking = false));
   return {
     video,
@@ -62,7 +72,26 @@ function createClip(video) {
     },
   };
 }
-const clip = createClip($("#v1"));
+const plate = $("#v1");
+// el celular recibe el clip liviano (960 px, 5,5 MB) y no el de 21 MB
+plate.src = isMobile ? "/video/plate-mobile.mp4" : "/video/plate.mp4";
+plate.load();
+const clip = createClip(plate);
+
+// ?debug=1: muestra el estado del video en pantalla (para diagnosticar desde un teléfono real)
+if (new URLSearchParams(location.search).has("debug")) {
+  const box = document.createElement("pre");
+  box.style.cssText = "position:fixed;left:8px;top:80px;z-index:999;margin:0;padding:8px;font:11px/1.35 monospace;color:#0f0;background:rgba(0,0,0,.8);max-width:92vw;white-space:pre-wrap;pointer-events:none";
+  document.body.append(box);
+  setInterval(() => {
+    box.textContent = [
+      "src: " + plate.currentSrc.split("/").pop(), "readyState: " + plate.readyState + "  paused: " + plate.paused,
+      "t: " + plate.currentTime.toFixed(2) + " / " + (plate.duration || 0).toFixed(2), "size: " + plate.videoWidth + "x" + plate.videoHeight,
+      "error: " + (plate.error ? plate.error.code + " " + plate.error.message : "no"), "mobile: " + isMobile + "  reduce: " + reduceMotion + "  saveData: " + saveData,
+      "scrollY: " + Math.round(scrollY), navigator.userAgent.slice(0, 70),
+    ].join(String.fromCharCode(10));
+  }, 400);
+}
 
 // ─── Elementos ───
 const stage = $("#stage");

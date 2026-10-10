@@ -68,7 +68,8 @@ a { color: inherit; text-decoration: none; }
 .stage {
   position: fixed; inset: 0; z-index: 0;
   opacity: calc(1 - var(--stage-out, 0));
-  background: #000;
+  /* si el video no llega a pintar (algunos iPhone), se ve igual la foto de partida */
+  background: #000 url("/video/plate.jpg") center / cover no-repeat;
 }
 .stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
