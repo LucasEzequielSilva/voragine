@@ -35,3 +35,13 @@
 - Por qué: las franjas giratorias (copiadas de PLATE) hacían que "parezca un video" y rompían la sensación de plano único; el usuario quiere que todo parezca UNO.
 - Qué queda: una sola placa scrubeada por scroll; el dinamismo lo ponen el recorrido, los textos que salen en 3D y los cambios de luz del propio video.
 - Descartado: capas desfasadas 1 s y grado de lente (probado, seguía leyéndose como otro video).
+
+## 2026-10-10 — Video en celular: archivo liviano + destrabe de iOS
+- Causa: el celular recibía el mp4 de 21 MB (el liviano existía pero no estaba conectado) y el video nunca se reproducía, y iOS Safari no pinta cuadros de un video que no se reprodujo aunque se le cambie currentTime.
+- Arreglo: plate-mobile.mp4 (960 px, 5,5 MB) en celular; play()+pause() una vez al cargar y, si el navegador bloquea el autoplay (ahorro de batería), al primer toque; foto de partida como fondo de respaldo; ?debug=1 muestra el estado del video en pantalla.
+- Verificado en Chrome (celular emulado, autoplay bloqueado hasta el toque). NO verificado en un iPhone real: pendiente.
+
+## 2026-10-10 — "Nuestro trabajo" y servicio "Sistemas"
+- Sección #casos (05) con el caso Manu: SOLO los datos confirmados por el usuario (web, sistema de stock, catálogo, trazabilidad premium). Sin cifras ni "antes" inventados.
+- Servicio nuevo "Sistemas" (stock, catálogo y trazabilidad). Rangos de scroll de servicios y números reajustados.
+- Falta: rubro/ciudad de Manu, resultados reales, capturas o URL, permiso del cliente para nombrarlo, y más casos.
