@@ -42,6 +42,11 @@
 - Verificado en Chrome (celular emulado, autoplay bloqueado hasta el toque). NO verificado en un iPhone real: pendiente.
 
 ## 2026-10-10 — "Nuestro trabajo" y servicio "Sistemas"
-- Sección #casos (05) con el caso Manu: SOLO los datos confirmados por el usuario (web, sistema de stock, catálogo, trazabilidad premium). Sin cifras ni "antes" inventados.
+- Sección #casos (05) con el caso iPhones Luxury (antes anotado por error como "Manu"): SOLO los datos confirmados por el usuario (web, sistema de stock, catálogo, trazabilidad premium). Sin cifras ni "antes" inventados.
 - Servicio nuevo "Sistemas" (stock, catálogo y trazabilidad). Rangos de scroll de servicios y números reajustados.
-- Falta: rubro/ciudad de Manu, resultados reales, capturas o URL, permiso del cliente para nombrarlo, y más casos.
+- Falta: rubro/ciudad de iPhones Luxury, resultados reales, capturas o URL, permiso del cliente para nombrarlo, y más casos.
+
+## 2026-10-13 — Caso iPhones Luxury con imágenes reales
+- Cliente: iPhones Luxury (https://iphonesluxury.com.ar/, iPhones revisados con garantía, Iguazú). Capturas reales del sitio (escritorio y celular) y foto del local en public/img/casos. No se generaron imágenes con IA para este caso.
+- El sitio del cliente muestra "+500 entregados" y "60 días de garantía": son de ellos, NO los usamos como resultado nuestro hasta que confirmen.
+- Entorno: Windows (Control de aplicaciones) bloquea @rollup/rollup-win32-x64-msvc en node_modules de Vorágine: `vite build` local falla; Vercel compila bien. No se esquivó la política.
